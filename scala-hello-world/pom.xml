@@ -11,7 +11,7 @@
     <properties>
         <jdk.version>1.8</jdk.version>
         <scala.compat.version>2.12</scala.compat.version>
-        <scala.version>2.12.10</scala.version>
+        <scala.version>2.13.11-M1</scala.version>
     </properties>
 
     <build>
