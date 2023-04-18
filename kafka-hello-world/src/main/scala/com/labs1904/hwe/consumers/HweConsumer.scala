@@ -42,7 +42,20 @@ object HweConsumer {
         // Retrieve the message from each record
         val message = record.value()
         logger.info(s"Message Received: $message")
-        // TODO: Add business logic here!
+
+        case class RawUser(senderKey: Int, senderId: String, senderName: String, senderEmail: String, senderDOB: String)
+        val recvdArray = message.split("\\t")
+        val parsedRawUser = RawUser(recvdArray(0).toInt,recvdArray(1),recvdArray(2),recvdArray(3),recvdArray(4))
+        logger.info(s"Parsed Message Key: ${parsedRawUser.senderKey}" )
+
+        case class EnrichedUser(rawUser: RawUser, numberAsWord: String, hweDeveloper: String)
+        val enrichedUser = EnrichedUser(parsedRawUser, Util.mapNumberToWord(parsedRawUser.senderKey), "Nag N")
+        logger.info(s"Parsed Message Key: ${enrichedUser.numberAsWord}" )
+
+
+        //Convert your instance of `EnrichedUser` into a comma-separated string of values
+        val commaSeparatedString = parsedRawUser.senderKey + "," +  parsedRawUser.senderId + ","
+        + parsedRawUser.senderName + "," + parsedRawUser.senderEmail + "," + parsedRawUser.senderDOB + ',' + enrichedUser.numberAsWord + "," + enrichedUser.hweDeveloper
 
       })
     }
