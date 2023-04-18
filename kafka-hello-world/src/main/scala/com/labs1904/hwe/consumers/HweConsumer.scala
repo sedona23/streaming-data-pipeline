@@ -1,10 +1,11 @@
 package com.labs1904.hwe.consumers
 
+import com.labs1904.hwe.producers.SimpleProducer.Topic
 import com.labs1904.hwe.util.Constants._
 import com.labs1904.hwe.util.Util
 import net.liftweb.json.DefaultFormats
 import org.apache.kafka.clients.consumer.{ConsumerRecord, ConsumerRecords, KafkaConsumer}
-import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.slf4j.LoggerFactory
 
 import java.time.Duration
@@ -57,6 +58,9 @@ object HweConsumer {
         val commaSeparatedString = parsedRawUser.senderKey + "," +  parsedRawUser.senderId + ","
         + parsedRawUser.senderName + "," + parsedRawUser.senderEmail + "," + parsedRawUser.senderDOB + ',' + enrichedUser.numberAsWord + "," + enrichedUser.hweDeveloper
 
+        val record = new ProducerRecord[String, String]("question-1-output", commaSeparatedString)
+        producer.send(record)
+        producer.close()
       })
     }
   }
